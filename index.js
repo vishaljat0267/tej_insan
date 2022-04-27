@@ -46,6 +46,28 @@ app.post('/username',(req,res)=>{ // new Entry
 })
 
 
+app.get("/login", (req, res) =>{
+    res.render("login");
+})
+
+app.post("/login",async(req, res) =>{
+    try{
+        const email = req.body.email;
+        const password = req.body.password;
+        const useremail = await UserCollec.findOne({email:email});
+        if(useremail.password === password){
+            res.status(201).render("index");
+
+        }else{
+            res.send("invaild login Details");
+        }
+
+    } catch (error){
+        res.status(400).send("invaild login Details")
+    }
+})
+
+
 
 
 app.listen(port, ()=>{
