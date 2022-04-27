@@ -3,10 +3,13 @@ const mongoose= require('mongoose');
 const {Schema,model} = mongoose
 const app = express();
 app.use(express.json())
+
+const port =process.env.PORT || 8080
+
 const DB = 'mongodb+srv://vish:1234@cluster0.c9vwu.mongodb.net/mernstack'
 
 {
-mongoose.connect(DB,{
+mongoose.connect(     DB,{
     useNewUrlParser: true,
   
     // useUnfiedTopology: true,
@@ -42,7 +45,7 @@ app.post('/username',(req,res)=>{ // new Entry
 
 
 
-app.listen(8080, ()=>{
+app.listen(port, ()=>{
     console.log("Server is running on port 8080");
 })
 
