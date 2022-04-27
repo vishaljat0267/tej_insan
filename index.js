@@ -1,7 +1,9 @@
 const express = require('express');
 const mongoose= require('mongoose');
 const {Schema,model} = mongoose
+const cors = require("cors")
 const app = express();
+app.use(cors())
 app.use(express.json())
 
 const port =process.env.PORT || 8080
@@ -24,7 +26,8 @@ const UserSchema = new Schema({
     name:String,
     phone:Number,
     email:String,
-    password:String
+    password:String,
+    confirm_password:String
 })
 
 const UserCollec = model("UserCollec",UserSchema)
