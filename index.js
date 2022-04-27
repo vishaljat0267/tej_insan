@@ -17,9 +17,6 @@ mongoose.connect(DB,{
 
 }
 
-
-
-
 const UserSchema = new Schema({
     name:String,
     phone:Number,
