@@ -1,28 +1,46 @@
 const express = require('express');
 const mongoose= require('mongoose');
+const {Schema,model} = mongoose
 const app = express();
-mongoose.connect( 'mongodb://localhost:27017/new',{
+app.use(express.json())
+const DB = 'mongodb+srv://vish:1234@cluster0.c9vwu.mongodb.net/mernstack'
+
+{
+mongoose.connect(DB,{
     useNewUrlParser: true,
-    useUnifiedTopology: true,
   
+    // useUnfiedTopology: true,
+    // useFindAndModify: false
 }).then(()=>{
     console.log('connections successful');
 }).catch((err) => console.log('no connections'));
 
+}
 
 
 
-app.get('/',(req,res)=>{  // send database
-    res.send({"data": [{
-        first : 'Amit',
-        last_name : 'Kumar',
-    }]})
+
+const UserSchema = new Schema({
+    name:String,
+    phone:Number,
+    email:String,
+    password:String
 })
 
-// app.post('/username',(req,res)=>{ // new Entry 
-//    console.log(">>>>>>>>>>>>>>>>>>>>>",req.body);
-//    res.send({data: req.body, mas: "Data updated successfully"})
-// })
+const UserCollec = model("UserCollec",UserSchema)
+
+
+app.post('/username',(req,res)=>{ // new Entry                                                     
+               const userDetail = UserCollec(req.body)
+               userDetail.save((err,userDetail)=>{
+                   if(err){
+                       res.status(500).send({err})
+                   }
+                   else{
+                       res.status(200).send({data:userDetail})
+                   }
+               })
+})
 
 
 
@@ -30,3 +48,4 @@ app.get('/',(req,res)=>{  // send database
 app.listen(8080, ()=>{
     console.log("Server is running on port 8080");
 })
+
