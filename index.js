@@ -1,7 +1,8 @@
 const express = require('express');
 const mongoose= require('mongoose');
 const {Schema,model} = mongoose
-const cors = require("cors")
+const cors = require("cors");
+const jwt = require('jsonwebtoken')
 const app = express();
 app.use(cors())
 app.use(express.json())
@@ -55,9 +56,11 @@ app.post("/login",async(req, res) =>{
         const email = req.body.email;
         const password = req.body.password;
         const useremail = await UserCollec.findOne({email:email,password:password});
-        console.log(useremail);
+        // console.log(useremail);
         if(useremail.password === password){
-            res.status(200).send("Login Successful");
+            const token=jwt.sign({useremail},'email')
+            console.log(token);
+            res.status(200).send({msg:"Login Successful",data:{token,useremail}});
 
         }else{
             res.send("invaild login Details");
