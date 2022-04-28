@@ -12,7 +12,7 @@ const DB = 'mongodb+srv://vish:1234@cluster0.c9vwu.mongodb.net/mernstack'
 
 {
 mongoose.connect(     DB,{
-    useNewUrlParser: true,
+    // useNewUrlParser: true,
   
     // useUnfiedTopology: true,
     // useFindAndModify: false
@@ -54,9 +54,10 @@ app.post("/login",async(req, res) =>{
     try{
         const email = req.body.email;
         const password = req.body.password;
-        const useremail = await UserCollec.findOne({email:email});
+        const useremail = await UserCollec.findOne({email:email,password:password});
+        console.log(useremail);
         if(useremail.password === password){
-            res.status(201).render("index");
+            res.status(200).send("Login Successful");
 
         }else{
             res.send("invaild login Details");
